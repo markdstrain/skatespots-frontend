@@ -1,0 +1,11 @@
+.image{
+  margin-left: 1em;
+}
+
+.logo{
+  background-color: blue;
+}
+.right{
+  margin-left: auto;
+  order: 2;
+}
