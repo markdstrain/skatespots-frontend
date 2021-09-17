@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Form, Button, Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { loginToAPI } from '../../actions/auth';
 
 function Login() {
@@ -9,18 +9,25 @@ function Login() {
     const dispatch = useDispatch();
     const usernameRef = useRef();
     const passwordRef = useRef();
+    const stateError = useSelector(store => store.errors);
+    const stateUser = useSelector(store => store.auth.user);
+    const history = useHistory();
    
     function handleSubmit(e) {
         e.preventDefault()
         dispatch(loginToAPI(usernameRef.current.value, passwordRef.current.value));
         
     }
+    if(stateUser && Object.keys(stateUser).length !== 0) {
+        history.push('/');
+   }
 
     return (
         <>
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-1">Log In</h2>
+                    {stateError.errors && Object.keys(stateError.errors).length !== 0 && <Alert variant="danger">{ stateError.errors } </Alert> }
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="username">
                             <Form.Label>User Name:</Form.Label>

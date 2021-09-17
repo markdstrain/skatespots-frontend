@@ -41,16 +41,20 @@ export function logoutOfAPI() {
 
 export function loginToAPI(username, password) {
    return async function (dispatch) {
-       const res = await axios.post(`${BASE_URL}/auth/login`, {
-           username,
-           password
-       });
-       const _refreshToken = res.data._refreshToken;
-       localStorage.setItem('_refreshToken', _refreshToken);
-       
-       
-       setAuthorizationToken(_refreshToken);
-       return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
+        try{
+            const res = await axios.post(`${BASE_URL}/auth/login`, {
+                username,
+                password
+            });
+            const _refreshToken = res.data._refreshToken;
+            localStorage.setItem('_refreshToken', _refreshToken);
+
+
+            setAuthorizationToken(_refreshToken);
+            return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
+      }catch(error){
+          return await dispatch(createErrors(error.response.data.message));
+      }      
    };
     
 }
@@ -73,8 +77,9 @@ export function signupFromAPI(username, password, firstName, lastName, email) {
             setAuthorizationToken(_refreshToken);
             return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
         
-    }catch(error){
-        return await dispatch(createErrors(error.response.data.message));
+        }catch(error){
+            return await dispatch(createErrors(error.response.data.message));
+        }
     }
-}};
+};
 

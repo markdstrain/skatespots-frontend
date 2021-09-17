@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { createErrors } from '../../actions/auth';
@@ -14,10 +14,11 @@ function Signup() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
-    const stateError = useSelector(store => store.error)
+    const stateError = useSelector(store => store.errors);
+    const stateUser = useSelector(store => store.auth.user);
     const [error, setError ] = useState('');
     const [loading, setLoading ] =useState(false);
-    
+    const history = useHistory();
     
     
     function handleSubmit(e) {
@@ -43,17 +44,18 @@ function Signup() {
         }
     }
    
-    if (stateError) {
-        return <div>{stateError}</div>
-    }
-
+    
    
+    if(stateUser && Object.keys(stateUser).length !== 0) {
+         history.push('/');
+    }
     return (
         <>
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-1">Sign Up</h2>
-                    {error && <Alert variant="danger">{ stateError } </Alert> }
+                    {error && <Alert variant="danger">{ error} </Alert> }
+                    {stateError.errors && Object.keys(stateError.errors).length !== 0 && <Alert variant="danger">{ stateError.errors } </Alert> }
                     <Form onSubmit={ handleSubmit }>
                         <Form.Group id="username">
                             <Form.Label>User Name:</Form.Label>
