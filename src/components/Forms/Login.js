@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { loginToAPI } from '../../actions/auth';
+import { createErrors } from '../../actions/errors';
 
 function Login() {
    
@@ -11,15 +12,17 @@ function Login() {
     const passwordRef = useRef();
     const stateError = useSelector(store => store.errors);
     const stateUser = useSelector(store => store.auth.user);
-    const history = useHistory();
+    
    
     function handleSubmit(e) {
         e.preventDefault()
+        dispatch(createErrors({}));
+        
         dispatch(loginToAPI(usernameRef.current.value, passwordRef.current.value));
         
     }
     if(stateUser && Object.keys(stateUser).length !== 0) {
-        history.push('/');
+        return <Redirect push to ="/"/>
    }
 
     return (

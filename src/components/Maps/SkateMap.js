@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactMapGL from "react-map-gl";
 
 
+
 function SkateMap() {
 
   const [ viewport, setViewport ] = useState({

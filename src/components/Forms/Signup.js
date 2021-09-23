@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
-import { createErrors } from '../../actions/auth';
+import { createErrors } from '../../actions/errors';
 import { signupFromAPI } from '../../actions/auth';
 
 function Signup() {
@@ -17,19 +17,19 @@ function Signup() {
     const stateError = useSelector(store => store.errors);
     const stateUser = useSelector(store => store.auth.user);
     const [error, setError ] = useState('');
-    const [loading, setLoading ] =useState(false);
-    const history = useHistory();
+    
+    
     
     
     function handleSubmit(e) {
         e.preventDefault();
-        if (passwordRef.current.value != 
+        if (passwordRef.current.value !== 
             passwordConfirmationRef.current.value) {
                 return setError('Passwords do not match')
             }
         try {
             setError('');
-            setLoading(true);
+            
             
             dispatch(createErrors({}))
             
@@ -47,7 +47,7 @@ function Signup() {
     
    
     if(stateUser && Object.keys(stateUser).length !== 0) {
-         history.push('/');
+        return <Redirect push to ="/"/>
     }
     return (
         <>

@@ -1,13 +1,17 @@
 import React, { useState, useCallback } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import { authConfig } from '../../utils/authConfig';
 import ReactMapGL, {Marker, NavigationControl } from "react-map-gl";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { saveCoordinates } from '../../actions/spots';
 import Pin from "./Pin";
-
+import "./SpotMarker.css"
 
 
 function SpotMarker() {
+
   const [ viewport, setViewport ] = useState({
     latitude: 34.7465,
     longitude: -92.2896,
@@ -18,6 +22,17 @@ function SpotMarker() {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = sessionStorage.getItem('user') ? sessionStorage.getItem('user') : null;
+  
+  function config() {
+    dispatch(authConfig(user));
+  } 
+
+  config();
+  if (config() !== user){
+    console.log('yyyyyy')
+  };
+
 
   const handleChange = (e) => {
     const coordinates = [marker.latitude, marker.longitude];
@@ -73,7 +88,7 @@ function SpotMarker() {
             <div className="nav" >
                 <NavigationControl/>
             </div>
-           <a value={[marker.latitude, marker.longitude]} onClick={handleChange} className="btn btn-primary" >
+           <a value={[marker.latitude, marker.longitude]} onClick={handleChange} className="btn btn-info spotButton" >
                 Create Spot
            </a>
             

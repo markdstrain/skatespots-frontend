@@ -1,10 +1,12 @@
 import axios from 'axios';
-import setAuthorizationToken from '../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
+import { setAuthorizationToken } from '../utils/authConfig';
 import { SET_CURRENT_USER,
-         SET_STATE_ERRORS
         } from './types';
+import { createErrors } from './errors';
 import Cookies from 'js-cookie';
+import { authConfig } from '../utils/authConfig';
+import { Redirect } from 'react-router';
 axios.defaults.withCredentials = true;
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
@@ -15,27 +17,22 @@ export function setCurrentUser(user) {
         user
     };
 }
-export const createErrors = (errors) => ({
-    type: SET_STATE_ERRORS,
-    payload: errors,
-})
-
-export function logoutOfAPI() {
+export function logoutOfAPI(username) {
     return async function (dispatch) {
-        
-        const token = localStorage.getItem('_refreshToken');
-        const result = jwtDecode(token);
-        const username = result.username
-        
-        await axios.post(`${BASE_URL}/auth/logout`,{
+        try{
+            await axios.post(`${BASE_URL}/auth/logout`,{
             username
-        });
+            });
 
-        Cookies.remove('_skateSpotToken');
-        localStorage.removeItem('_refreshToken');
+            Cookies.remove('_skateSpotToken');
+            localStorage.removeItem('_refreshToken');
+            sessionStorage.removeItem("user");
         
-        setAuthorizationToken(false);
-        return dispatch(setCurrentUser({}));
+            setAuthorizationToken(false);
+            return dispatch(setCurrentUser({}));
+        }catch(error){
+            return dispatch(createErrors(error))
+        }
     }
 }
 
@@ -47,13 +44,16 @@ export function loginToAPI(username, password) {
                 password
             });
             const _refreshToken = res.data._refreshToken;
+            const refreshTokenInfo = jwtDecode(_refreshToken);
+            window.sessionStorage.setItem("user", refreshTokenInfo.username);
             localStorage.setItem('_refreshToken', _refreshToken);
 
-
+            
             setAuthorizationToken(_refreshToken);
+            authConfig();
             return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
       }catch(error){
-          return await dispatch(createErrors(error.response.data.message));
+          return dispatch(createErrors(error.response.data.message));
       }      
    };
     
@@ -72,6 +72,8 @@ export function signupFromAPI(username, password, firstName, lastName, email) {
             
 
             const _refreshToken = res.data._refreshToken;
+            const refreshTokenInfo = jwtDecode(_refreshToken);
+            window.sessionStorage.setItem("user", refreshTokenInfo.username);
             localStorage.setItem('_refreshToken', _refreshToken);
 
             setAuthorizationToken(_refreshToken);
@@ -82,4 +84,7 @@ export function signupFromAPI(username, password, firstName, lastName, email) {
         }
     }
 };
+
+
+
 
