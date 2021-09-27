@@ -9,7 +9,7 @@ import Signup from './Forms/Signup';
 import Login from './Forms/Login';
 import Logout from './Forms/Logout';
 import InfoBar from './Navbars/InfoBar';
-
+import ProtectedRoute from './ProtectedRoute';
 
 
 function App() {
@@ -21,28 +21,10 @@ function App() {
         <Route exact path="/">
           <SkateMap/>
         </Route>
-        <Route exact path="/spotmarker">
-          <SpotMarker/>
-        </Route>
-        <Route exact path="/spotform">
-          <Container 
-              className="d-flex align-items-center justify-content-center mt-1"
-              style={{ maxHeight: "100vh" }}
-              >
-                <div className="w-100" style={{ maxWidth: '450px'}}>
-                  <SpotForm />
-                </div>
-          </Container>
-        </Route>
+        <ProtectedRoute exact path ="/spotmarker" component={SpotMarker}/>
+        <ProtectedRoute exact path="/spotform" component={SpotForm}/>
         <Route exact path="/signup">
-          <Container 
-            className="d-flex align-items-center justify-content-center mt-1"
-            style={{ maxHeight: "100vh" }}
-            >
-              <div className="w-100" style={{ maxWidth: '400px'}}>
-                <Signup />
-              </div>
-          </Container>
+          <Signup />
         </Route>
         <Route exact path="/login">
           <Container 

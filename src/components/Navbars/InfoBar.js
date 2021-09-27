@@ -1,28 +1,19 @@
 import React from "react";
 import jwtDecode from 'jwt-decode';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import Logout from "../Forms/Logout";
 
 
 function InfoBar(){
 
-  
   const refreshToken = (localStorage.getItem("_refreshToken")) ? localStorage.getItem("_refreshToken") : null;
   const refreshTokenInfo = (refreshToken) ? jwtDecode(refreshToken) : null;
   const user = (refreshTokenInfo) ? refreshTokenInfo.username : null
   
-  
-  
-
-  
-  
-
   if(refreshTokenInfo && (refreshTokenInfo.isAdmin)){
       
       return (
         <>
           <Navbar bg="dark" variant="dark" className="navbar">
-        
             <Navbar.Brand href="/" className="image">
               <img
               alt=""
@@ -49,8 +40,6 @@ function InfoBar(){
                 <Nav.Link href="/logout">
                   Logout
                 </Nav.Link>
-            
-            
               </Nav> 
             </Container>
           </Navbar>
@@ -60,7 +49,6 @@ function InfoBar(){
     return(
       <>
         <Navbar bg="dark" variant="dark" className="navbar">
-        
           <Navbar.Brand href="/" className="image">
             <img
             alt=""
@@ -90,7 +78,6 @@ function InfoBar(){
     return(
       <>
         <Navbar bg="dark" variant="dark" className="navbar">
-        
           <Navbar.Brand href="/" className="image">
             <img
             alt=""
@@ -102,9 +89,6 @@ function InfoBar(){
             Skate Spots
           </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/spots">
-              Spots
-            </Nav.Link>
           </Nav>
           <Container>
             <Nav className="nav-bar right">
@@ -119,9 +103,7 @@ function InfoBar(){
         </Navbar>
       </>
     )
-  }
-          
-        
+  }    
 };
 
 export default InfoBar;

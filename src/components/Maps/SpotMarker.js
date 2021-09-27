@@ -24,22 +24,11 @@ function SpotMarker() {
   const history = useHistory();
   const user = sessionStorage.getItem('user') ? sessionStorage.getItem('user') : null;
   
-  function config() {
-    dispatch(authConfig(user));
-  } 
-
-  config();
-  if (config() !== user){
-    console.log('yyyyyy')
-  };
-
-
   const handleChange = (e) => {
     const coordinates = [marker.latitude, marker.longitude];
     dispatch(saveCoordinates(coordinates));
     console.log(e.target.name);
     history.push('/spotform');
-
   };
 
   const [ marker, setMarker ] = useState({
@@ -54,7 +43,9 @@ function SpotMarker() {
       });
   }, []);
 
-
+  // if(stateUser && Object.keys(stateUser).length !== 0) {
+  //   return <Redirect push to ="/"/>
+  // }
 
   return (
     <div>
@@ -91,12 +82,7 @@ function SpotMarker() {
            <a value={[marker.latitude, marker.longitude]} onClick={handleChange} className="btn btn-info spotButton" >
                 Create Spot
            </a>
-            
         </ReactMapGL>
-            
-      
-        
-
     </div>
   )
 }
