@@ -10,6 +10,16 @@ The frontend will be in React/Redux and will access the backend api and also the
 
 # Getting Started with Create React App
 
+## Libraries
+axios <br>
+bootstrap <br>
+react <br>
+react-bootstrap<br>
+react-dom<br>
+react-router-dom<br>
+react-scripts<br>
+web-vitals
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
