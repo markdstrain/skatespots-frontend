@@ -13,7 +13,6 @@ function SkateMap() {
     zoom: 3
   });
   
-
   return (
     <div>
       <ReactMapGL 

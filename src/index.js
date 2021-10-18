@@ -9,8 +9,8 @@ import combineReducers from "./reducers/root";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { composeWithDevTools } from "redux-devtools-extension";
-
 import "bootstrap/dist/css/bootstrap.css";
+
 
 const store = createStore(
   combineReducers,
@@ -18,6 +18,8 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 );
+
+
 
 ReactDOM.render(
   <Provider store={store} className="container">

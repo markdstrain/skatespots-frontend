@@ -14,6 +14,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 export function setCurrentUser(user) {
     return {
         type: SET_CURRENT_USER,
+        id: user.username,
         user
     };
 }
