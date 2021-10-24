@@ -1,7 +1,6 @@
 import React from 'react';
 import SkateMap from './Maps/SkateMap';
 import { Route, Switch } from "react-router-dom";
-import './App.css';
 import SpotMarker from './Maps/SpotMarker';
 import SpotForm from "./Forms/SpotForm";
 import Signup from './Forms/Signup';
@@ -11,8 +10,8 @@ import InfoBar from './Navbars/InfoBar';
 import ProtectedRoute from './ProtectedRoute';
 
 
-
-function App() {
+function Root() {
+  
   return (
     <div >
           <Route path="/" component={InfoBar}/>
@@ -36,4 +35,4 @@ function App() {
   )
 }
 
-export default App;
+export default Root;

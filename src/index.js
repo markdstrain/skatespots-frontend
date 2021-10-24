@@ -12,10 +12,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import "bootstrap/dist/css/bootstrap.css";
 
 
+
 const store = createStore(
   combineReducers,
+  undefined,
   composeWithDevTools(
-    applyMiddleware(thunk)
+          applyMiddleware(thunk)
   )
 );
 

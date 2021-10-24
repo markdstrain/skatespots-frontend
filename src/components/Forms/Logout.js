@@ -8,7 +8,7 @@ function Logout(){
     
     console.log("logging out")
     const dispatch = useDispatch();
-    const token = (localStorage.getItem('_refreshToken')) ? localStorage.getItem('_refreshToken') : null;
+    const token = (localStorage.getItem('token')) ? localStorage.getItem('token') : null;
     const result = (token) ? jwtDecode(token) : null;
     const username = (result) ? result.username : null;
     const stateUser = useSelector(store => store.auth.user);
@@ -16,8 +16,9 @@ function Logout(){
 
    if (username){
        if(stateUser && Object.keys(stateUser).length === 0) {
+                 console.log('loggout component')
             dispatch(logoutOfAPI(username));
-            localStorage.removeItem('_refreshToken');
+            localStorage.removeItem('token');
             return <Redirect push to ="/"/> 
         }
    }

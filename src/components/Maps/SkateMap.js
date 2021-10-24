@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import ReactMapGL from "react-map-gl";
+import { useData } from "../Hooks/hooks";
 
 
 
 function SkateMap() {
+
+          const [spots, getSpots, isLoading] = useData();
+
+          useEffect(() => {
+                    getSpots();
+                    console.log(spots)
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
+          },[]);
+          
 
   const [ viewport, setViewport ] = useState({
     latitude: 34.7465,

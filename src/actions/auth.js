@@ -1,15 +1,15 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { setAuthorizationToken } from '../utils/authConfig';
 import { SET_CURRENT_USER,
         } from './types';
 import { createErrors } from './errors';
 import Cookies from 'js-cookie';
-import { authConfig } from '../utils/authConfig';
-
 axios.defaults.withCredentials = true;
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
+const axiosInterceptor = axios.create();
+
+
 
 export function setCurrentUser(user) {
     return {
@@ -18,17 +18,19 @@ export function setCurrentUser(user) {
         user
     };
 }
+
+
 export function logoutOfAPI(username) {
     return async function (dispatch) {
         try{
             await axios.post(`${BASE_URL}/auth/logout`,{
             username
             });
-            Cookies.remove('_skateSpotToken');
-            localStorage.removeItem('_refreshToken');
+            
+            
+            localStorage.removeItem('token');
             sessionStorage.removeItem("user");
         
-            setAuthorizationToken(false);
             return dispatch(setCurrentUser({}));
         }catch(error){
             return dispatch(createErrors(error))
@@ -43,16 +45,15 @@ export function loginToAPI(username, password) {
                 username,
                 password
             });
-            const _refreshToken = res.data._refreshToken;
-            const refreshTokenInfo = jwtDecode(_refreshToken);
-            window.sessionStorage.setItem("user", refreshTokenInfo.username);
-            localStorage.setItem('_refreshToken', _refreshToken);
 
-            setAuthorizationToken(_refreshToken);
-            authConfig();
-            return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
+            const token = res.data.token;
+            const tokenInfo = jwtDecode(token);
+            window.sessionStorage.setItem("user", tokenInfo.username);
+            localStorage.setItem('token', token);
+
+            return dispatch(setCurrentUser(jwtDecode(token)));
       }catch(error){
-          return dispatch(createErrors(error.response.data.message));
+          return dispatch(createErrors(error.response));
       }      
    };
     
@@ -69,19 +70,22 @@ export function signupFromAPI(username, password, firstName, lastName, email) {
                     email
                 });
             
-            const _refreshToken = res.data._refreshToken;
-            const refreshTokenInfo = jwtDecode(_refreshToken);
-            window.sessionStorage.setItem("user", refreshTokenInfo.username);
-            localStorage.setItem('_refreshToken', _refreshToken);
+            const token = res.data.token;
+            const refreshTokenInfo = jwtDecode(token);
+            window.sessionStorage.setItem("user", token.username);
+            localStorage.setItem('token', token);
 
-            setAuthorizationToken(_refreshToken);
-            return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
+            
+            return dispatch(setCurrentUser(jwtDecode(token)));
         
         }catch(error){
-            return await dispatch(createErrors(error.response.data.message));
+            return  dispatch(createErrors(error.response.data.message));
         }
     }
 };
+   
+
+
 
 
 

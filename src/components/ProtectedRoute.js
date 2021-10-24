@@ -9,8 +9,8 @@ function ProtectedRoute({ isUser: isUser, component: Component, ...rest}) {
         <Route
             {...rest}
             render={(props) => {
-                const refreshToken = localStorage.getItem("_refreshToken") ? 
-                    localStorage.getItem("_refreshToken") : null
+                const refreshToken = localStorage.getItem("token") ? 
+                    localStorage.getItem("token") : null
                 if (refreshToken) {
                     return <Component />;
                 }else {
