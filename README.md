@@ -7,6 +7,15 @@ The frontend will be in React/Redux and will access the backend api and also the
 
 ![Image of Schema]( ./src/images/Schema.png)
 
+#Images of App
+
+![Image of Schema]( ./public/images/Login.png)
+![Image of Schema]( ./public/images/Register.png)
+![Image of Schema]( ./public/images/SpotLocator.png)
+![Image of Schema]( ./public/images/SpotInfo.png)
+![Image of Schema]( ./public/images/SpotSelect.png)
+![Image of Schema]( ./public/images/SpotDetailForm.png)
+
 
 # Getting Started with Create React App
 
