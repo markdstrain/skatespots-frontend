@@ -7,7 +7,7 @@ The frontend will be in React/Redux and will access the backend api and also the
 
 ![Image of Schema]( ./public/images/Schema.png)
 
-#Images of App
+# Images of App
 
 ![Image of Schema]( ./public/images/Login.png)
 ![Image of Schema]( ./public/images/Register.png)
