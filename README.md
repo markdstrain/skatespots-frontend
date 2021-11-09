@@ -2,7 +2,9 @@
 This app will focus on pinning spots on a map that have places that are fun to skateboard at.  The project will be a full stack application using a React//Redux front end and a Node back end using an Express framework.  The project will use restful routes that create users, spots and their attributes, and user comments.  It will implement secure routing by using hashed passwords and json web tokens.  The back end will send the front end two json web tokens:  one jwt sent as an http cookie that  will act as an access token that will expire in a short duration and the second will be sent to local storage as a refresh token. The latter will have a significantly longer duration and will be used to update the access token.
 
 The frontend will be in React/Redux and will access the backend api and also the Mapbox api.  It will have routes that offer location of skate spots, skate spot profiles, user profiles, user login and registration, and capabilities for user to make comments on each location.  It will take advantage of react bootstrap styles, axios calls, and react/redux state.  
-# Backend Can be found at https://github.com/markdstrain/skatespots-backend/tree/easy
+# Backend Can be found at 
+
+https://github.com/markdstrain/skatespots-backend/tree/easy
 
 # Schema
 
