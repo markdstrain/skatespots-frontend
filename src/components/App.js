@@ -9,6 +9,7 @@ import Login from './Forms/Login';
 import Logout from './Forms/Logout';
 import InfoBar from './Navbars/InfoBar';
 import ProtectedRoute from './ProtectedRoute';
+import SpotPage from './SpotPage/SpotPage';
 
 
 
@@ -22,6 +23,9 @@ function App() {
                     </Route>
                     <ProtectedRoute exact path ="/spotmarker" component={SpotMarker}/>
                     <ProtectedRoute exact path="/spotform" component={SpotForm}/>
+                    <Route exact path ="/spot/:id">
+                              <SpotPage/>
+                    </Route>
                     <Route exact path="/signup">
                               <Signup />
                     </Route>

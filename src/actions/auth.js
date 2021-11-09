@@ -2,12 +2,12 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { SET_CURRENT_USER,
         } from './types';
+import axiosInstance from '../utils/axiosInstance';
 import { createErrors } from './errors';
-import Cookies from 'js-cookie';
 axios.defaults.withCredentials = true;
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
-const axiosInterceptor = axios.create();
+
 
 
 
@@ -23,10 +23,6 @@ export function setCurrentUser(user) {
 export function logoutOfAPI(username) {
     return async function (dispatch) {
         try{
-            await axios.post(`${BASE_URL}/auth/logout`,{
-            username
-            });
-            
             
             localStorage.removeItem('token');
             sessionStorage.removeItem("user");
@@ -41,7 +37,7 @@ export function logoutOfAPI(username) {
 export function loginToAPI(username, password) {
    return async function (dispatch) {
         try{
-            const res = await axios.post(`${BASE_URL}/auth/login`, {
+            const res = await axiosInstance.post(`${BASE_URL}/auth/login`, {
                 username,
                 password
             });
@@ -62,7 +58,7 @@ export function loginToAPI(username, password) {
 export function signupFromAPI(username, password, firstName, lastName, email) {
     return async function (dispatch) {
         try{ 
-                const res = await axios.post(`${BASE_URL}/auth/register`, {
+                const res = await axiosInstance.post(`${BASE_URL}/auth/register`, {
                     username,
                     password,
                     firstName,
@@ -71,8 +67,8 @@ export function signupFromAPI(username, password, firstName, lastName, email) {
                 });
             
             const token = res.data.token;
-            const refreshTokenInfo = jwtDecode(token);
-            window.sessionStorage.setItem("user", token.username);
+            const tokenInfo = jwtDecode(token);
+            window.sessionStorage.setItem("user", tokenInfo.username);
             localStorage.setItem('token', token);
 
             

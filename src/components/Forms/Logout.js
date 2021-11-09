@@ -1,6 +1,6 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
-import { logoutOfAPI, setCurrentUser } from "../../actions/auth";
+import { logoutOfAPI } from "../../actions/auth";
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import {  Redirect } from 'react-router-dom';
 import { saveCoordinatsToAPI } from '../../actions/spots';
 import { Form, Button, Card, Alert, Container, Row, Col } from 'react-bootstrap';
@@ -10,6 +10,7 @@ function SpotForm() {
     
           const dispatch = useDispatch();
           const [error, setError] = useState('')
+          const [create, setCreate] =useState('false')
           const titleRef = useRef();
           const commentRef = useRef();
           const stateError = useSelector(store => store.errors);
@@ -55,7 +56,7 @@ function SpotForm() {
                                                                       user,
                                                                       details,
                                                                       commentRef.current.value));
-                                                  
+                                                  setCreate(true);
                                         }                 
                               }
                     }catch(err){
@@ -70,6 +71,9 @@ function SpotForm() {
                     if(stateError && stateError.errors === "You must be logged in to access this! 😐"){
                               return <Redirect push to ="/login" />
                     };
+                    if (create === true){
+                              return <Redirect push to = '/'/>
+                    }
                     
    
   //html for Spot Detail Form Gets Spot Name Sets Detail and any additional Comment you want to make.

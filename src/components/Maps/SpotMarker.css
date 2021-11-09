@@ -2,3 +2,24 @@
     position: relative;
     left: 80%;
 }
+.fore{
+          z-index: 100;
+}
+.pin{
+          height: 50px;
+}
+
+.marker-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+}
+.popup{
+
+}
+.popup-box{
+          display: inline-block;
+          margin-right: none;
+          right: auto;
+          z-index: 10;
+}

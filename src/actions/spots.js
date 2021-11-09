@@ -1,22 +1,27 @@
-import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance';
-
-
+import { createErrors } from './errors';
 import { 
           FETCH_SPOTS,
-          SAVE_COORDINATES
+          SAVE_COORDINATES,
+          FETCH_SPOT
           } from './types';
-import { createErrors } from './errors';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
+
 
 export function setSpots(spots) {
           return {
               type: FETCH_SPOTS,
-              id: spots.id,
+              spots: spots,
               
           };
       }
+export function setSpot(spot) {
+          return {
+                    type: FETCH_SPOT,
+                    spot: spot
+          };
+}
 
 
 export const saveCoordinates = (coordinates) => ({
@@ -36,6 +41,8 @@ export function saveCoordinatsToAPI(title,coordinates,user,details,comment ) {
                               comment
                           });
                     console.log(res)
+
+                    
                    
              }catch(error){
                  return dispatch(createErrors(error.response.data.message));
@@ -47,9 +54,12 @@ export function saveCoordinatsToAPI(title,coordinates,user,details,comment ) {
 export function getAllSpots(){
           return async function (dispatch) {
                     try{
-                        const res = await axios.get(`${BASE_URL}/spots`)
-            
-                        console.log(res);
+                        const res = await axiosInstance.get(`${BASE_URL}/spots`)
+                       const spots = res.data.spots
+                       
+                       
+                       return dispatch(setSpots(spots));
+                    //     return dispatch(setSpots(res.data.spots));
             
                         
                   }catch(error){
@@ -58,25 +68,20 @@ export function getAllSpots(){
                };
 }
 
-                
-
-//        export function saveSpotToAPI(username, password) {
-//           return async function (dispatch) {
-//                try{
-//                    const res = await axios.post(`${BASE_URL}/spots`, {
+export function getASpot(id){
+          return async function (dispatch) {
+                    try{
+                              console.log('madeit')
+                        const res = await axiosInstance.get(`${BASE_URL}/spots/${id}`)
+                       const spot = res.data
                        
-//                    });
-//                    const _refreshToken = res.data._refreshToken;
-//                    const refreshTokenInfo = jwtDecode(_refreshToken);
-//                    window.sessionStorage.setItem("user", refreshTokenInfo.username);
-//                    localStorage.setItem('_refreshToken', _refreshToken);
-       
-//                    setAuthorizationToken(_refreshToken);
-//                    authConfig();
-//                    return dispatch(setCurrentUser(jwtDecode(_refreshToken)));
-//              }catch(error){
-//                  return dispatch(createErrors(error.response.data.message));
-//              }      
-//           };
-           
-//        }
+                       return dispatch(setSpot(spot.spot));
+                    //     return dispatch(setSpots(res.data.spots));
+            
+                        
+                  }catch(error){
+                      return dispatch(createErrors(error.response));
+                  }      
+               };
+}              
+

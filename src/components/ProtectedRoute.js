@@ -3,15 +3,15 @@ import { Route, Redirect } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { createErrors } from "../actions/errors";
 
-function ProtectedRoute({ isUser: isUser, component: Component, ...rest}) {
+function ProtectedRoute({  isUser, component: Component, ...rest}) {
     const dispatch = useDispatch();
     return(
         <Route
             {...rest}
             render={(props) => {
-                const refreshToken = localStorage.getItem("token") ? 
+                const token= localStorage.getItem("token") ? 
                     localStorage.getItem("token") : null
-                if (refreshToken) {
+                if (token) {
                     return <Component />;
                 }else {
                     dispatch(createErrors("must be logged in to access"))
